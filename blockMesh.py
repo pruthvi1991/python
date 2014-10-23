@@ -7,24 +7,24 @@ import math
 ami_radius = 5
 theta = math.pi
 i = theta/2
-j = 0 ; k = 0 ; l = 0 ; m = 0
-boundingbox_negative_x = -5
+j = 0 ; k = 0 ; l = 0 ; m = 0 # dummy indices
+boundingbox_negative_x = -5  
 boundingbox_positive_x = 10
 boundingbox_negative_y = -2
 boundingbox_positive_y = 2
-rotor_cells = [10, 1, 10]
-stator_cells = [10, 1, 10]
-rotor_grading = [1, 1, 1]
-stator_grading = [1, 1, 1]
+rotor_cells = [10, 1, 10]    # Number of cells in rotor
+stator_cells = [10, 1, 10]    # Number of cells in stator
+rotor_grading = [1, 1, 1]    # Mesh grading of rotor
+stator_grading = [1, 1, 1]    # Mesh grading of stator
 X = [0]
 Y = [0]
 Z = [0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1]
-v1 = []; v2 = []; v3 = []; v4 = []; v5 = []; v6 = []; v7 = []; v8 = [];
-edge_x = []; edge_y = [];
-rotor_face1 = []; rotor_face2 = []; rotor_face3 = []; rotor_face4 = [];
-stator_face1 = []; stator_face2 = []; stator_face3 = []; stator_face4 = [];
-front1 = []; front2 = []; front3 = []; front4 = []; front5 = []; front6 = []; front7 = []; front8 = []
-back1 = []; back2 = []; back3 = []; back4 = []; back5 = []; back6 = []; back7 = []; back8 = [];
+v1 = []; v2 = []; v3 = []; v4 = []; v5 = []; v6 = []; v7 = []; v8 = []; # Lists to hold block vertices
+edge_x = []; edge_y = [];    # Lists to hold edge values
+rotor_face1 = []; rotor_face2 = []; rotor_face3 = []; rotor_face4 = []; # Lists to hold rotor ami face vertices
+stator_face1 = []; stator_face2 = []; stator_face3 = []; stator_face4 = []; # Lists to hold stator ami face vertices
+front1 = []; front2 = []; front3 = []; front4 = []; front5 = []; front6 = []; front7 = []; front8 = [] # Lists to hold front face vertices
+back1 = []; back2 = []; back3 = []; back4 = []; back5 = []; back6 = []; back7 = []; back8 = []; # Lists to hold back face vertices
 
 def vertex(x,y,z): #Function to print vertexes in OpenFoam format :: (x y z)
     v = '(' + str(x) + ' ' + str(y) + ' ' + str(z) + ')'
@@ -39,7 +39,7 @@ def block(x,y,z,p,q,r,s,t): #Function to print block in OpenFoam format :: hex (
     + ' ' + str(r) + ' ' + str(s) + ' ' + str(t) + ')'
     return b
 
-def edges():
+def edges(): # Function to print edges in OpenFoam format :: edge <vertex1> <vertex2> (x y z)
     print 'edges'
     print '('
     for j in range(1,6):
@@ -85,12 +85,12 @@ def vertices(): #Function to print vertices in OpenFoam format :: vertices (<  >
 def blocks(): #Function to print blocks in OpenFoam format :: blocks (<  >);
     print 'blocks'
     print '('
-    for j in range(0,6):
+    for j in range(0,5):
         print '    ' + block(v1[j], v2[j], v3[j], v4[j], v5[j], v6[j], v7[j], v8[j])\
         + ' (' + str(rotor_cells[0]) + ' ' + str(rotor_cells[1]) + ' ' + str(rotor_cells[2]) + ')' \
         + ' simpleGrading ' + '(' + ' ' + str(rotor_grading[0]) + ' ' + str(rotor_grading[1]) \
         + ' ' + str( rotor_grading[2]) + ')' + ' //' + 'b' + str(j+1) + ' ~rotor'
-    for j in range(6,11):
+    for j in range(5,10):
         print '    ' + block(v1[j], v2[j], v3[j], v4[j], v5[j], v6[j], v7[j], v8[j])\
         + ' (' + str(stator_cells[0]) + ' ' + str(stator_cells[1]) + ' ' + str(stator_cells[2]) + ')' \
         + ' simpleGrading ' + '(' + str(stator_grading[0]) + ' ' + str(stator_grading[1]) \
@@ -99,7 +99,12 @@ def blocks(): #Function to print blocks in OpenFoam format :: blocks (<  >);
     + ' ' + str(20) + ' ' + str(7) + ' ' + str(12) + ')' + ' (' + str(stator_cells[0]) + ' ' \
     + str(stator_cells[1]) + ' ' + str(stator_cells[2]) + ')' + ' simpleGrading ' + '(' \
     + str(stator_grading[0]) + ' ' + str(stator_grading[1]) + ' ' + str(stator_grading[2]) \
-    + ')' + '  ' '//b12' + ' ~stator'
+    + ')' + '  ' '//b11' + ' ~stator'
+    print '    hex (' + str(19) + ' ' + str(14) + ' ' + str(1) + ' ' + str(6) + ' ' + str(25)\
+    + ' ' + str(20) + ' ' + str(7) + ' ' + str(12) + ')' + ' (' + str(rotor_cells[0]) + ' ' \
+    + str(rotor_cells[1]) + ' ' + str(rotor_cells[2]) + ')' + ' simpleGrading ' + '(' \
+    + str(rotor_grading[0]) + ' ' + str(rotor_grading[1]) + ' ' + str(rotor_grading[2]) \
+    + ')' + '  ' '//b12' + ' ~rotor'
     print ');'
 
 def boundaries():
@@ -107,8 +112,8 @@ def boundaries():
     print '    inlet\n    {\n        type patch;\n        faces\n        ( \n        \
     (22 21 8 9)        \n        );\n    }\n\n    outlet\n    {\n        type patch;\n        \
 faces\n        ( \n            (24 25 12 11)        \n        );\n    }\
-\n\n    topandbottom\n    {\n        type patch;\n\n        faces\n        ( \n            (25 21 8 12)\n        \
-    (24 22 9 11)\n        );\n    }'
+\n\n    topandbottom\n    {\n        type patch;\n\n        faces\n        ( \n            (25 20 7 12)\n        \
+    (24 23 10 11)\n            (20 21 8 7)\n            (23 22 9 10)\n        );\n    }'
     ami()
     
 def ami():
@@ -167,7 +172,7 @@ X.append(boundingbox_positive_x), X.append(boundingbox_positive_x)
 Y.append(boundingbox_positive_y), Y.append(boundingbox_positive_y), Y.append(boundingbox_negative_y)
 Y.append(boundingbox_negative_y), Y.append(boundingbox_negative_y), Y.append(boundingbox_positive_y)
 
-while k<6: # Looping over rotor_stator_interface vertices to define blocks. 
+while k<5: # Looping over rotor_stator_interface vertices to define blocks. 
     v5.append(13),        v6.append(13),       v7.append(0)
     v8.append(0),         v1.append(k + 14),   v2.append(k + 15)
     v3.append(k + 2),     v4.append(k + 1)
