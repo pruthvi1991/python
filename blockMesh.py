@@ -155,7 +155,7 @@ def frontandback():
     + ' ' + '    // rotor_back_face' + str(23)
     print '            ' + '(' + str(32) + ' ' + str(37) + ' ' + str(25) + ' ' + str(20) + ')' \
     + ' ' + '    // stator_back_face' + str(24)
-    print '        );\n    }'
+    print '        );\n    }\n);'
    
 while j<6:
     X.append(ami_radius*math.cos(i))
