@@ -4,14 +4,14 @@
 # <codecell>
 
 import math
-ami_radius = 5
+ami_radius = 2.5
 theta = math.pi
 i = theta/2
 j = 0 ; k = 0 ; l = 0 ; m = 0 # dummy indices
 boundingbox_negative_x = -5  
 boundingbox_positive_x = 10
-boundingbox_negative_y = -2
-boundingbox_positive_y = 2
+boundingbox_negative_y = -5
+boundingbox_positive_y = 5
 rotor_cells = [10, 1, 10]    # Number of cells in rotor
 stator_cells = [10, 1, 10]    # Number of cells in stator
 rotor_grading = [1, 1, 1]    # Mesh grading of rotor
@@ -100,8 +100,8 @@ def blocks(): #Function to print blocks in OpenFoam format :: blocks (<  >);
     + str(stator_cells[1]) + ' ' + str(stator_cells[2]) + ')' + ' simpleGrading ' + '(' \
     + str(stator_grading[0]) + ' ' + str(stator_grading[1]) + ' ' + str(stator_grading[2]) \
     + ')' + '  ' '//b11' + ' ~stator'
-    print '    hex (' + str(19) + ' ' + str(14) + ' ' + str(1) + ' ' + str(6) + ' ' + str(25)\
-    + ' ' + str(20) + ' ' + str(7) + ' ' + str(12) + ')' + ' (' + str(rotor_cells[0]) + ' ' \
+    print '    hex (' + str(19) + ' ' + str(14) + ' ' + str(1) + ' ' + str(6) + ' ' + str(13)\
+    + ' ' + str(13) + ' ' + str(0) + ' ' + str(0) + ')' + ' (' + str(rotor_cells[0]) + ' ' \
     + str(rotor_cells[1]) + ' ' + str(rotor_cells[2]) + ')' + ' simpleGrading ' + '(' \
     + str(rotor_grading[0]) + ' ' + str(rotor_grading[1]) + ' ' + str(rotor_grading[2]) \
     + ')' + '  ' '//b12' + ' ~rotor'
@@ -149,7 +149,7 @@ def frontandback():
         + '    // stator_back_face' + str(4*j + 4)
     print '            ' + '(' + str(0) + ' ' + str(6) + ' ' + str(1) + ' ' + str(0) + ')' \
     + ' ' + '    // rotor_front_face' + str(21)
-    print '            ' + '(' + str(31) + ' ' + str(12) + ' ' + str(7) + ' ' + str(1) + ')' \
+    print '            ' + '(' + str(31) + ' ' + str(12) + ' ' + str(7) + ' ' + str(26) + ')' \
     + ' ' + '    // stator_front_face' + str(22)
     print '            ' + '(' + str(13) + ' ' + str(19) + ' ' + str(14) + ' ' + str(13) + ')' \
     + ' ' + '    // rotor_back_face' + str(23)
