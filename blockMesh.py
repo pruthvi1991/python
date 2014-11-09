@@ -86,10 +86,15 @@ def blocks(): #Function to print blocks in OpenFoam format :: blocks (<  >);
     print 'blocks'
     print '('
     for j in range(0,5):
-        print '    ' + block(v1[j], v2[j], v3[j], v4[j], v5[j], v6[j], v7[j], v8[j])\
+        print '    ' + block(v7[j], v8[j], v5[j], v6[j], v3[j], v4[j], v1[j], v2[j])\
         + ' (' + str(rotor_cells[0]) + ' ' + str(rotor_cells[1]) + ' ' + str(rotor_cells[2]) + ')' \
         + ' simpleGrading ' + '(' + ' ' + str(rotor_grading[0]) + ' ' + str(rotor_grading[1]) \
         + ' ' + str( rotor_grading[2]) + ')' + ' //' + 'b' + str(j+1) + ' ~rotor'
+    print '    hex (' + str(0) + ' ' + str(0) + ' ' + str(13) + ' ' + str(13) + ' ' + str(1)\
+    + ' ' + str(6) + ' ' + str(19) + ' ' + str(14) + ')' + ' (' + str(rotor_cells[0]) + ' ' \
+    + str(rotor_cells[1]) + ' ' + str(rotor_cells[2]) + ')' + ' simpleGrading ' + '(' \
+    + str(rotor_grading[0]) + ' ' + str(rotor_grading[1]) + ' ' + str(rotor_grading[2]) \
+    + ')' + '  ' '//b12' + ' ~rotor'
     for j in range(5,10):
         print '    ' + block(v1[j], v2[j], v3[j], v4[j], v5[j], v6[j], v7[j], v8[j])\
         + ' (' + str(stator_cells[0]) + ' ' + str(stator_cells[1]) + ' ' + str(stator_cells[2]) + ')' \
@@ -100,11 +105,6 @@ def blocks(): #Function to print blocks in OpenFoam format :: blocks (<  >);
     + str(stator_cells[1]) + ' ' + str(stator_cells[2]) + ')' + ' simpleGrading ' + '(' \
     + str(stator_grading[0]) + ' ' + str(stator_grading[1]) + ' ' + str(stator_grading[2]) \
     + ')' + '  ' '//b11' + ' ~stator'
-    print '    hex (' + str(19) + ' ' + str(14) + ' ' + str(1) + ' ' + str(6) + ' ' + str(13)\
-    + ' ' + str(13) + ' ' + str(0) + ' ' + str(0) + ')' + ' (' + str(rotor_cells[0]) + ' ' \
-    + str(rotor_cells[1]) + ' ' + str(rotor_cells[2]) + ')' + ' simpleGrading ' + '(' \
-    + str(rotor_grading[0]) + ' ' + str(rotor_grading[1]) + ' ' + str(rotor_grading[2]) \
-    + ')' + '  ' '//b12' + ' ~rotor'
     print ');'
 
 def boundaries():
@@ -139,20 +139,23 @@ transform    noOrdering;'
 def frontandback():
     print '    frontandback\n    {\n        type empty;\n        faces\n        ('
     for j in range(0,5):
-        print '            ' + face(front1[j], front2[j], front3[j], front4[j]) + ' ' \
+        print '            ' + face(front1[j], front4[j], front2[j], front3[j]) + ' ' \
         + '    // rotor_front_face' + str(4*j + 1)
+    print '            ' + '(' + str(0) + ' ' + str(0) + ' ' + str(6) + ' ' + str(1) + ')' \
+    + ' ' + '    // rotor_front_face' + str(21)
+    for j in range(0,5):
         print '            ' + face(front5[j], front6[j], front7[j], front8[j]) + ' ' \
         + '    // stator_front_face' + str(4*j + 2)
-        print '            ' + face(back1[j], back2[j], back3[j], back4[j]) + ' ' \
-        + '    // rotor_back_face' + str(4*j + 3)
-        print '            ' + face(back5[j], back6[j], back7[j], back8[j]) + ' ' \
-        + '    // stator_back_face' + str(4*j + 4)
-    print '            ' + '(' + str(0) + ' ' + str(6) + ' ' + str(1) + ' ' + str(0) + ')' \
-    + ' ' + '    // rotor_front_face' + str(21)
     print '            ' + '(' + str(31) + ' ' + str(12) + ' ' + str(7) + ' ' + str(26) + ')' \
     + ' ' + '    // stator_front_face' + str(22)
-    print '            ' + '(' + str(13) + ' ' + str(19) + ' ' + str(14) + ' ' + str(13) + ')' \
+    for j in range(0,5):
+        print '            ' + face(back1[j], back4[j], back2[j], back3[j]) + ' ' \
+        + '    // rotor_back_face' + str(4*j + 3)
+    print '            ' + '(' + str(13) + ' ' + str(13) + ' ' + str(19) + ' ' + str(14) + ')' \
     + ' ' + '    // rotor_back_face' + str(23)
+    for j in range(0,5):
+        print '            ' + face(back5[j], back6[j], back7[j], back8[j]) + ' ' \
+        + '    // stator_back_face' + str(4*j + 4)
     print '            ' + '(' + str(32) + ' ' + str(37) + ' ' + str(25) + ' ' + str(20) + ')' \
     + ' ' + '    // stator_back_face' + str(24)
     print '        );\n    }\n);'
