@@ -51,7 +51,7 @@ def edges(): # Function to print edges in OpenFoam format :: edge <vertex1> <ver
         print '    arc ' + str(k+14) + ' ' + str(k+15) + ' ' + '(' + str(edge_x[k]) + ' ' +\
         str(edge_y[k]) + ' ' + str(-Z[k])+')' + '     //e' + str(k+7)
     print '    arc ' + str(19) + ' ' + str(14) + ' ' + '(' + str(edge_x[5]) + ' ' +\
-        str(edge_y[5]) + ' ' + str(Z[5])+')' + '     //e' + str(12)
+        str(edge_y[5]) + ' ' + str(-Z[5])+')' + '     //e' + str(12)
     for j in range(0,5):
         print '    arc ' + str(j+26) + ' ' + str(j+27) + ' ' + '(' + str(edge_x[j]) + ' ' +\
         str(edge_y[j]) + ' ' + str(Z[j])+')' + '     //e' + str(j + 13)
@@ -61,7 +61,7 @@ def edges(): # Function to print edges in OpenFoam format :: edge <vertex1> <ver
         print '    arc ' + str(k+32) + ' ' + str(k+33) + ' ' + '(' + str(edge_x[k]) + ' ' +\
         str(edge_y[k]) + ' ' + str(-Z[k])+')' + '     //e' + str(k+19)
     print '    arc ' + str(37) + ' ' + str(32) + ' ' + '(' + str(edge_x[5]) + ' ' +\
-        str(edge_y[5]) + ' ' + str(Z[5])+')' + '     //e' + str(24)
+        str(edge_y[5]) + ' ' + str(-Z[5])+')' + '     //e' + str(24)
     print ');'
         #return e
 
