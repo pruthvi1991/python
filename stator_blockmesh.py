@@ -79,7 +79,10 @@ def blocks(): #Function to print blocks in OpenFoam format :: blocks (<  >);
 
 def boundaries():
     print 'boundary\n('
-    print '    topandbottom\n    {\n        type patch;\n\n        faces\n        ( \n            (23 18 6 11)\n        \
+    print '    inlet\n    {\n        type patch;\n        faces\n        ( \n        \
+    (20 19 7 8)        \n        );\n    }\n\n    outlet\n    {\n        type patch;\n        \
+faces\n        ( \n            (22 23 11 10)        \n        );\n    }\
+\n\n    topandbottom\n    {\n        type patch;\n\n        faces\n        ( \n            (23 18 6 11)\n        \
     (18 19 7 6)\n            (21 20 8 9)\n            (22 21 9 10)\n        );\n    }'
     ami()
     
