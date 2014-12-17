@@ -3,22 +3,21 @@ ami_radius = 2.5
 theta = math.pi
 i = theta/2
 j = 0 ; k = 0 ; l = 0 ; m = 0 # dummy indices
-boundingbox_negative_x = -4*(ami_radius)  
-boundingbox_positive_x = 4*(ami_radius)
-boundingbox_negative_y = -4*(ami_radius)
-boundingbox_positive_y = 4*(ami_radius)
+
 rotor_cells = [10, 1, 10]    # Number of cells in rotor
-stator_cells = [10, 1, 10]    # Number of cells in stator
+
 rotor_grading = [1, 1, 1]    # Mesh grading of rotor
-stator_grading = [1, 1, 1]    # Mesh grading of stator
-X = [0]
-Y = [0]
-Z = [0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1]
+
+X = [0]; Y = [0]; Z = [0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1] # Lists for x,y,z coordinates of mesh
+
 v1 = []; v2 = []; v3 = []; v4 = []; v5 = []; v6 = []; v7 = []; v8 = []; # Lists to hold block vertices
+
 edge_x = []; edge_y = [];    # Lists to hold edge values
+
 rotor_face1 = []; rotor_face2 = []; rotor_face3 = []; rotor_face4 = []; # Lists to hold rotor ami face vertices
-stator_face1 = []; stator_face2 = []; stator_face3 = []; stator_face4 = []; # Lists to hold stator ami face vertices
+
 front1 = []; front2 = []; front3 = []; front4 = []; front5 = []; front6 = []; front7 = []; front8 = [] # Lists to hold front face vertices
+
 back1 = []; back2 = []; back3 = []; back4 = []; back5 = []; back6 = []; back7 = []; back8 = []; # Lists to hold back face vertices
 
 def vertex(x,y,z): #Function to print vertexes in OpenFoam format :: (x y z)
@@ -54,9 +53,9 @@ def vertices(): #Function to print vertices in OpenFoam format :: vertices (<  >
     print 'vertices'
     print '('
     for j in range(0,7):
-        print '    ' + vertex(X[j], Y[j], Z[j]) + '      //v' +str(j)+ ' ~rotor_stator_interface_top'
+        print '    ' + vertex(X[j], Y[j], Z[j]) + '      //v' +str(j)+ ' sliding interface_top'
     for j in range(0,7):
-        print '    ' + vertex(X[j], Y[j], -Z[j]) + '     //v' +str(j+6) + ' ~rotor_stator_interface_bottom'
+        print '    ' + vertex(X[j], Y[j], -Z[j]) + '     //v' +str(j+6) + ' sliding interface_bottom'
     print ');'
     
 def blocks(): #Function to print blocks in OpenFoam format :: blocks (<  >);
@@ -102,7 +101,7 @@ def frontandback():
     + ' ' + '    // rotor_back_face' + str(11)
     print '        );\n    }\n);'
    
-while j<6:
+while j<6: # Looping over rotor edge to define vertices position
     X.append(ami_radius*math.cos(i))
     Y.append(ami_radius*math.sin(i))
     #Z.append(0.1)
@@ -112,23 +111,14 @@ while j<6:
     j = j + 1
     #print vertex(X[j-1], Y[j-1], Z[j-1]) + '  //v' + str(j)
 
-X.append(0), X.append(boundingbox_negative_x), X.append(boundingbox_negative_x), X.append(0)
-X.append(boundingbox_positive_x), X.append(boundingbox_positive_x)
-Y.append(boundingbox_positive_y), Y.append(boundingbox_positive_y), Y.append(boundingbox_negative_y)
-Y.append(boundingbox_negative_y), Y.append(boundingbox_negative_y), Y.append(boundingbox_positive_y)
-
-while k<5: # Looping over rotor_stator_interface vertices to define blocks. 
+while k<5: # Looping over rotor vertices to define blocks. 
     v5.append(7),        v6.append(7),       v7.append(0)
     v8.append(0),         v1.append(k + 8),   v2.append(k + 9)
     v3.append(k + 2),     v4.append(k + 1)
     k = k + 1
     
-for j in range(32,37): # Looping over stator_rotor_interface vertices to define blocks.
-    v1.append(j),         v2.append(j + 1),    v3.append(j - 5)
-    v4.append(j - 6),    v5.append(j - 12),    v6.append(j - 11)
-    v7.append(j - 24),     v8.append(j - 25)
     
-while l<6: # Looping over rotor and stator ami interface to define sliding boundary.
+while l<6: # Looping over rotor edge to define sliding boundary faces.
     rotor_face1.append(l+9),    rotor_face2.append(l+8),    rotor_face3.append(l+1)
     rotor_face4.append(l+2)
     l = l + 1
