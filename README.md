@@ -1,7 +1,7 @@
 python
 ======
 
-This repository contains the python codes I used to generate meshes and time varying boundary conditoins for OpenFoam simulations.
+This repository contains the python codes I used to generate meshes and time varying boundary conditions for OpenFoam simulations.
 
 Take a quick look at the simulations here:
 
